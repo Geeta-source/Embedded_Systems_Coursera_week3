@@ -1,33 +1,23 @@
-/******************************************************************************
- * Copyright (C) 2017 by Alex Fosdick - University of Colorado
- *
- * Redistribution, modification or use of this software in source or binary
- * forms is permitted as long as the files maintain this copyright. Users are 
- * permitted to modify this and use it to learn about the field of embedded
- * software. Alex Fosdick and the University of Colorado are not liable for any
- * misuse of this material. 
- *
- *****************************************************************************/
 /**
- * @file course1.c 
- * @brief This file is to be used to course 1 final assessment.
+ * @file course1.c
+ * @brief defines all data manipulation and memory content manipulations
  *
- * @author Alex Fosdick
- * @date April 2, 2017
- *
+ * @author Geeta Navalyal
+ * @date July 1, 2020
  */
-
 #include <stdint.h>
 #include "course1.h"
-#include "platform.h"
-#include "memory.h"
 #include "data.h"
+#include "memory.h"
 #include "stats.h"
+#include "platform.h"
 
 int8_t test_data1() {
   uint8_t * ptr;
   int32_t num = -4096;
   uint32_t digits;
+  uint32_t BASE_10 = 10; 
+  
   int32_t value;
 
   PRINTF("\ntest_data1();\n");
@@ -38,13 +28,14 @@ int8_t test_data1() {
     return TEST_ERROR;
   }
 
-  digits = my_itoa( num, ptr, BASE_16);   
-  value = my_atoi( ptr, digits, BASE_16);
-  #ifdef VERBOSE
-  PRINTF("  Initial number: %d\n", num);
-  PRINTF("  Final Decimal number: %d\n", value);
-  #endif
-  free_words( (uint32_t*)ptr );
+  digits = my_itoa( num, ptr, BASE_10);   
+  value = my_atoi( ptr, digits, BASE_10);
+  
+  PRINTF("Initial integer number: %d\n", num);
+  PRINTF("No. of digits in the ASCII value is: %d \n", digits);
+  PRINTF("Integer value after converting is :%d\n\n\n",value);
+  
+  void free_words(uint32_t * ptr );
 
   if ( value != num )
   {
@@ -53,12 +44,14 @@ int8_t test_data1() {
   return TEST_NO_ERROR;
 }
 
+
 int8_t test_data2() {
   uint8_t * ptr;
   int32_t num = 123456;
   uint32_t digits;
   int32_t value;
-
+  uint32_t BASE_10 = 10; 
+  
   PRINTF("test_data2():\n");
   ptr = (uint8_t*) reserve_words( DATA_SET_SIZE_W );
 
@@ -69,10 +62,13 @@ int8_t test_data2() {
 
   digits = my_itoa( num, ptr, BASE_10);
   value = my_atoi( ptr, digits, BASE_10);
+  
   #ifdef VERBOSE
-  PRINTF("  Initial Decimal number: %d\n", num);
-  PRINTF("  Final Decimal number: %d\n", value);
+  PRINTF("Initial integer number:%d\n", num);
+  PRINTF("No. of digits in the ASCII value is:%d\n",digits);
+  PRINTF("Integer value after converting is : %d\n\n\n", value);
   #endif
+  
   free_words( (uint32_t*)ptr );
 
   if ( value != num )
@@ -194,11 +190,8 @@ int8_t test_memmove3() {
       ret = TEST_ERROR;
     }
   }
-
-
   free_words( (uint32_t*)set );
   return ret;
-
 }
 
 int8_t test_memcopy() {
@@ -242,7 +235,7 @@ int8_t test_memcopy() {
 int8_t test_memset() 
 {
   uint8_t i;
-  uint8_t ret = TEST_NO_ERROR;
+  int8_t ret = TEST_NO_ERROR;
   uint8_t * set;
   uint8_t * ptra;
   uint8_t * ptrb;
@@ -280,7 +273,6 @@ int8_t test_memset()
       ret = TEST_ERROR;
     }
   }
-  
   free_words( (uint32_t*)set );
   return ret;
 }
@@ -304,8 +296,8 @@ int8_t test_reverse()
   }
   
   my_memcopy(set, copy, MEM_SET_SIZE_B);
-
   print_array(set, MEM_SET_SIZE_B);
+  
   my_reverse(set, MEM_SET_SIZE_B);
   print_array(set, MEM_SET_SIZE_B);
 

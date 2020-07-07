@@ -113,8 +113,8 @@ int8_t test_memcopy();
  * This function calls the memset and memzero functions. This shoudl zero out
  * the bytes from [] to []. This should set the bytes [] to [] with 0xFF.
  *
- * @return void
- */
+ * @return void*/
+ 
 int8_t test_memset();
 
 /**

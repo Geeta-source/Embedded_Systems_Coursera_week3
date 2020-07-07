@@ -31,6 +31,13 @@
 #
 #------------------------------------------------------------------------------
 include sources.mk
+ifeq ($(COURSE), COURSE1)
+	CFLAGS += -DCOURSE1
+endif
+
+ifeq ($(VERBOSE), ENABLE)
+	CFLAGS += -DVERBOSE
+endif
 
 ifeq ($(PLATFORM),HOST)
 		CC = gcc
@@ -44,7 +51,7 @@ ifeq ($(PLATFORM),HOST)
 else
 	        CC = arm-none-eabi-gcc
 		LD = arm-none-eabi-ld
-		LINKER_FILE = ../msp432p401r.lds
+		LINKER_FILE = msp432p401r.lds
 		LDFLAGS = -Wl,-Map=$(TARGET).map -T $(LINKER_FILE)
 
 		# Architectures Specific Flags for ARM
@@ -63,20 +70,20 @@ endif
 # Platform Overrides
 # Macro variable for choosing platform is -D$(PLATFORM)
 
-TARGET = c1m2
+TARGET = c1m3
 
 # Compiler Flags and Defines
-CFLAGS = -Wall -Werror -g -O0 -std=c99 -D$(PLATFORM) $(ARMFLAGS)
+CFLAGS = -Wall -Werror -g -O0 -std=c99 -D$(PLATFORM) -D$(COURSE) -D$(VERBOSE) $(ARMFLAGS)
 
 # Preprocessor Flags and Defines
 CPPFLAGS = -E
 
 #Make variables for Preprocessed files, Object files ,Assembly files and Dependency files. 
 
-PRE = $(SOURCES:.c=.i)
-OBJ = $(SOURCES:.c=.o)
-ASM = $(SOURCES:.c=.asm)
-DEP = $(SOURCES:.c=.d)
+PRE = $(SRCS:.c=.i)
+OBJ = $(SRCS:.c=.o)
+ASM = $(SRCS:.c=.asm)
+DEP = $(SRCS:.c=.d)
 
 # To stop after compiling	
 %.o : %.c

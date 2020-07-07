@@ -11,23 +11,30 @@
 
 # Source files are added to the variable SOURCES
 
+         
 ifeq ($(PLATFORM),HOST)
-	SOURCES = main.c \
-		  memory.c 
-	INCLUDES = -I../include/common
+	SRCS = 	src/main.c \
+               	src/data.c \
+	       	src/course1.c \
+	       	src/memory.c \
+	       	src/stats.c
+	INCLUDES = -I include/common
 else
-	SOURCES = main.c \
-	       memory.c \
-               startup_msp432p401r_gcc.c \
-               system_msp432p401r.c \
-	       interrupts_msp432p401r_gcc.c
+	SRCS = 	src/main.c \
+	       	src/memory.c \
+               	src/data.c  \
+               	src/course1.c  \
+               	src/stats.c \
+               	src/startup_msp432p401r_gcc.c \
+               	src/system_msp432p401r.c \
+	       	src/interrupts_msp432p401r_gcc.c
 	
-	INCLUDES =    -I../include/CMSIS \
-		      -I../include/common \
-		      -I../include/msp432 \
-		      -I../ 	
+	INCLUDES =    -I include/CMSIS \
+		      -I include/common \
+		      -I include/msp432 
+		       	
 endif
 
 
 
-
+ 
